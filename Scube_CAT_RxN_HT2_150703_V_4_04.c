@@ -1,28 +1,28 @@
 //============================================================================================
-// ¤¿,¤Ì,¤Ã Motor Ro_ Test End Program
+// ã…,ã…œ,ã…“ Motor Ro_ Test End Program
 // 232C USE Display.
 // New MainBoard 190829
-// 191023 Temp º¸Á¤
-// 191202 ÀÎÅÍ·´Æ® ¸í·É¾î ¿¡ÄÚ Á¦°Å
-// 220221 ¹®ÀÚ¿­¿¡ ½ÃÀÛ(@) ³¡(#) ¹®ÀÚ Ãß°¡ 8.02(EUMC)¿¡¼­ ÆÄ»ı
-// 220323 ¿Âµµº¸Á¤½Ä °è»ê¹æ¹ı º¯°æ Á÷¼±½Ä ¿Âµµº¸Á¤
-// 220404 ÀÎÅÍ·´Æ® ¿¡ÄÚÁ¦°Å,  NOW_State_ReQST ÇÁ·Î¼¼½º ³Ñ¹ö Ãâ·Â¹æ½Äº¯°æ
-// 220715 ¿ÂµµÀ¯ÁöÁß °¡¿­ ¼Óµµ ÀúÇÏ, ¿Âµµº¸Á¤
-// 220728 8.5.4¿¡¼­ ÆÄ»ı ¿ÂµµÀ¯ÁöÁß °¡¿­¼Óµµ ÀúÇÏ ºÎºĞ ¿¹ÀüÀ¸·Î º¯°æ
+// 191023 Temp ë³´ì •
+// 191202 ì¸í„°ëŸ½íŠ¸ ëª…ë ¹ì–´ ì—ì½” ì œê±°
+// 220221 ë¬¸ìì—´ì— ì‹œì‘(@) ë(#) ë¬¸ì ì¶”ê°€ 8.02(EUMC)ì—ì„œ íŒŒìƒ
+// 220323 ì˜¨ë„ë³´ì •ì‹ ê³„ì‚°ë°©ë²• ë³€ê²½ ì§ì„ ì‹ ì˜¨ë„ë³´ì •
+// 220404 ì¸í„°ëŸ½íŠ¸ ì—ì½”ì œê±°,  NOW_State_ReQST í”„ë¡œì„¸ìŠ¤ ë„˜ë²„ ì¶œë ¥ë°©ì‹ë³€ê²½
+// 220715 ì˜¨ë„ìœ ì§€ì¤‘ ê°€ì—´ ì†ë„ ì €í•˜, ì˜¨ë„ë³´ì •
+// 220728 8.5.4ì—ì„œ íŒŒìƒ ì˜¨ë„ìœ ì§€ì¤‘ ê°€ì—´ì†ë„ ì €í•˜ ë¶€ë¶„ ì˜ˆì „ìœ¼ë¡œ ë³€ê²½
 //--------------------------------------------------------------------------------------------
 #include "DSP28x_Project.h"					   										// Device Headerfile and Examples Include File
 #include "DSP2833x_Device.h"				   										// DSP2833x Headerfile Include File
 #include "DSP2833x_Examples.h"													// DSP2833x Examples Include File
-#include "DSP2833x_0_Define.h"													// º¯¼öÁ¤ÀÇ
-#include "DSP2833x_0_Motor_Sensor.h"											// Motor & Sensor ÇÁ·Î±×·¥ ¼³Á¤
-#include "DSP2833x_0_GPIO.h"				   										// GPIO ¼³Á¤
-#include "DSP2833x_0_Process.h"													// È÷ÅÍ, ÆßÇÁ, Åë½Å ¼³Á¤
-#include "DSP2833x_0_INT.h"														// ÀÎÅÍ·´Æ® ¼³Á¤
-#include "DSP2833x_Xintf.h"															// ¿ÜºÎÀÎÅÍÆäÀÌ½º ¼³Á¤
+#include "DSP2833x_0_Define.h"													// ë³€ìˆ˜ì •ì˜
+#include "DSP2833x_0_Motor_Sensor.h"											// Motor & Sensor í”„ë¡œê·¸ë¨ ì„¤ì •
+#include "DSP2833x_0_GPIO.h"				   										// GPIO ì„¤ì •
+#include "DSP2833x_0_Process.h"													// íˆí„°, íŒí”„, í†µì‹  ì„¤ì •
+#include "DSP2833x_0_INT.h"														// ì¸í„°ëŸ½íŠ¸ ì„¤ì •
+#include "DSP2833x_Xintf.h"															// ì™¸ë¶€ì¸í„°í˜ì´ìŠ¤ ì„¤ì •
 //============================================================================================
 void InitXintf(void);
 void First_num();
-Uint16     Now_Step;                       												// Step À» ÁøÇàÇÏ±âÀ§ÇÑ º¯¼ö
+Uint16     Now_Step;                       												// Step ì„ ì§„í–‰í•˜ê¸°ìœ„í•œ ë³€ìˆ˜
 Uint16     Double_EQ;                      												// EQ
 
 void main(void)
@@ -30,18 +30,18 @@ void main(void)
 	DINT;
 	InitSysCtrl();
 	InitSciaGpio();
-	InitScibGpio();
-	InitScicGpio();																		// 190830 NewMB
+	// InitScibGpio();
+	// InitScicGpio();																		// 190830 NewMB
 	EALLOW;
 
 	Init_SOL_GPIO_SETUP();
 	Init_SSR_GPIO_SETUP();
 	Init_V_Pump_GPIO_SETUP();
 
-/******************************************************************** ½Ã½ºÅÛ ÄÁÆ®·Ñ ÃÊ±âÈ­******/
+/******************************************************************** ì‹œìŠ¤í…œ ì»¨íŠ¸ë¡¤ ì´ˆê¸°í™”******/
 	SysCtrlRegs.HISPCP.bit.HSPCLK = 1;  											// HSPCLK = SYSCLKOUT/(HISPCP*2)
 	EDIS;																						// HSPCLK = 150MHz/(1*2) = 75MHz
-/********************************************************************  ÀÎÅÍ·´Æ® ÃÊ±âÈ­*********/
+/********************************************************************  ì¸í„°ëŸ½íŠ¸ ì´ˆê¸°í™”*********/
 	InitPieCtrl();
 	IER = 0x0000;
 	IFR = 0x0000;
@@ -54,9 +54,9 @@ void main(void)
 	PieVectTable.TINT0 = &cpu_timer0_isr;
 	PieVectTable.SCIRXINTA = &sciaRxIsr;
 	EDIS;
-	ADC_INT_Init();																	// ADC ÃÊ±âÈ­
+	ADC_INT_Init();																	// ADC ì´ˆê¸°í™”
 	CPUTimer_INT_Init();																// INT CPUTimer0 SETTING
-//	Rx_INT_Init();																		// Processñé ¿¡¸¸ Rx Åë½ÅÀ» ÀÎÅÍ·´Æ® »ç¿ë
+//	Rx_INT_Init();																		// Processä¸­ ì—ë§Œ Rx í†µì‹ ì„ ì¸í„°ëŸ½íŠ¸ ì‚¬ìš©
 /********************************************************************************************/
 	InitXintf();																			// external interface initial
 
@@ -71,22 +71,22 @@ void main(void)
 	// DELAY_US(70000);
 	DELAY_US(100000);
 
-	// Motor_Init_Tick();      // ¸ğÅÍ ÃÊ±âÈ­ ÁøÇà (Àı´ë ºí·ÎÅ·µÇÁö ¾ÊÀ½)
-	// Motor_Init_2();			// 2015.09.23 - ¸ğÅÍ ÇÑ¹ÙÄû µ¹¸²
+	// Motor_Init_Tick();      // ëª¨í„° ì´ˆê¸°í™” ì§„í–‰ (ì ˆëŒ€ ë¸”ë¡œí‚¹ë˜ì§€ ì•ŠìŒ)
+	// Motor_Init_2();			// 2015.09.23 - ëª¨í„° í•œë°”í€´ ëŒë¦¼
 	// Motor_Stop();
 
 	while(1)
 	{
-		Order_COM();																// PC¿¡¼­ ¿À´Â ¸í·ÉÄÚµå È®ÀÎ ÈÄ Mode °áÁ¤
+		Order_COM();																// PCì—ì„œ ì˜¤ëŠ” ëª…ë ¹ì½”ë“œ í™•ì¸ í›„ Mode ê²°ì •
 		DELAY_US(1);
 
 		switch(Mode){
 			case 1 :																	// Mode=1 : PC_Data receive
-				PC_Data_Recive();                                    				// PC data ¸¦ Recipe ¹è¿­¿¡ »ğÀÔ
+				PC_Data_Recive();                                    				// PC data ë¥¼ Recipe ë°°ì—´ì— ì‚½ì…
 				break;
 			case 2 :																	// Mode=2 : Process Start
 				Manual_run:
-				Rx_INT_Init();														// Rx Åë½Å ÀÎÅÍ·´Æ® »ç¿ë
+				Rx_INT_Init();														// Rx í†µì‹  ì¸í„°ëŸ½íŠ¸ ì‚¬ìš©
 				Now_Step = 1, istage = 0;
 				EMS = 0;
 
@@ -97,37 +97,37 @@ void main(void)
 					}
 					else
 					{																// Step end Check!!
-						Delay_Time_Check(istage);									// Step Delay Time È®ÀÎ
-						Sol_Auto(istage);											// SOL µ¿ÀÛ
+						Delay_Time_Check(istage);									// Step Delay Time í™•ì¸
+						Sol_Auto(istage);											// SOL ë™ì‘
 
-						Pump_Check(istage);											// Vacuum Pump µ¿ÀÛÈ®ÀÎ< Speed °ª ÀÇ À¯¹« >
-						Heater_Check(istage);										// Heater µ¿ÀÛÈ®ÀÎ             < ¿Âµµ °ªÀÇ À¯¹«>
+						Pump_Check(istage);											// Vacuum Pump ë™ì‘í™•ì¸< Speed ê°’ ì˜ ìœ ë¬´ >
+						Heater_Check(istage);										// Heater ë™ì‘í™•ì¸             < ì˜¨ë„ ê°’ì˜ ìœ ë¬´>
 
-						PAUSE();													// Pause ¸í·É ¼öÇà È®ÀÎ ¹× ¼öÇà
+						PAUSE();													// Pause ëª…ë ¹ ìˆ˜í–‰ í™•ì¸ ë° ìˆ˜í–‰
 
-						if(EMS != 1){												// EMS = 1 : PC·Î ºÎÅÍ ºñ»óÁ¤Áö¸í·É ¹ŞÀ½
+						if(EMS != 1){												// EMS = 1 : PCë¡œ ë¶€í„° ë¹„ìƒì •ì§€ëª…ë ¹ ë°›ìŒ
 
 							Pump_Auto();
-							DELAY_US(20000);										// Pump µ¿ÀÛ & ¾Ğ·ÂÀ» Àâ±âÀ§ÇÑ µô·¹ÀÌ
-							Motor_Auto();											// Motor ±¸µ¿ ¹× Á¤Áö
+							DELAY_US(20000);										// Pump ë™ì‘ & ì••ë ¥ì„ ì¡ê¸°ìœ„í•œ ë”œë ˆì´
+							Motor_Auto();											// Motor êµ¬ë™ ë° ì •ì§€
 
 							if(Manual != 0){
 								NOW_State_M_ReQST();
 								DELAY_US(25000);
 							} // sending data to PC(Motor/Sol)
 
-							PAUSE();													// Pause ¸í·É ¼öÇà È®ÀÎ ¹× ¼öÇà
+							PAUSE();													// Pause ëª…ë ¹ ìˆ˜í–‰ í™•ì¸ ë° ìˆ˜í–‰
 
 							if(SET_Temp_Heater[0] != 0){
-								Heater0_Auto();										// Heater1 ±¸µ¿ ¹× Á¤Áö
+								Heater0_Auto();										// Heater1 êµ¬ë™ ë° ì •ì§€
 							}
 							else if(SET_Temp_Heater[1] != 0){
-								Heater1_Auto();										// Heater2 ±¸µ¿ ¹× Á¤Áö
+								Heater1_Auto();										// Heater2 êµ¬ë™ ë° ì •ì§€
 							}
 
 							CPU_Timer0_Isr_cnt = 0;
 
-							while(!(Step_SET_Delay_Time*10 <= CPU_Timer0_Isr_cnt)){  	// Step_Delay_Timeµ¿¾È ÆßÇÁ±¸µ¿
+							while(!(Step_SET_Delay_Time*10 <= CPU_Timer0_Isr_cnt)){  	// Step_Delay_Timeë™ì•ˆ íŒí”„êµ¬ë™
 								NOW_State_ReQST();							// sending data to PC(UI/RI/TEMP/stage)
 								DELAY_US(70000);
 								PAUSE();
@@ -147,7 +147,7 @@ void main(void)
 
 							if((Double_EQ == 1)&&(EMS != 1)){
 								while(NGO == 0){							// 2EQ
-									string_Tx("@SDR#");						// 2022-02-21 ½ÃÀÛ¹®ÀÚ ³¡¹®ÀÚ Ãß°¡
+									string_Tx("@SDR#");						// 2022-02-21 ì‹œì‘ë¬¸ì ëë¬¸ì ì¶”ê°€
 									/*scia_Tx('S');							// 2019-12-23
 									scia_Tx('D');
 									scia_Tx('R');*/
@@ -159,7 +159,7 @@ void main(void)
 								}  // sending data to PC(UI/RI/TEMP/stage)
 
 								NGO = 0;
-								string_Tx("@NSR#");							// 2022-02-21 ½ÃÀÛ¹®ÀÚ ³¡¹®ÀÚ Ãß°¡
+								string_Tx("@NSR#");							// 2022-02-21 ì‹œì‘ë¬¸ì ëë¬¸ì ì¶”ê°€
 								/*scia_Tx('N');
 								scia_Tx('S');
 								scia_Tx('R');*/
@@ -173,7 +173,7 @@ void main(void)
 								DELAY_US(70000);							// 2019-12-23
 							}												// sending data to PC(UI/RI/TEMP/stage)
 
-							All_Pump_Off();									// Pump µ¿ÀÛ Á¤Áö
+							All_Pump_Off();									// Pump ë™ì‘ ì •ì§€
 
 							if(Manual == 11){
 								Mode = 4;
@@ -202,9 +202,9 @@ void main(void)
 					}// END of Step end Check!!
 				}// while(Now_Step != istage) END < Process END>
 				All_Parts_Stop();
-				SOL_Output();												// ¸ğµç ¼Öº§ºê off
+				SOL_Output();												// ëª¨ë“  ì†”ë²¨ë¸Œ off
 
-				string_Tx("@$$END#");										// 2022-02-21 ½ÃÀÛ¹®ÀÚ ³¡¹®ÀÚ Ãß°¡
+				string_Tx("@$$END#");										// 2022-02-21 ì‹œì‘ë¬¸ì ëë¬¸ì ì¶”ê°€
  				/*scia_Tx('$');												// 2019012023
 				scia_Tx('$');
 				scia_Tx('E');
@@ -220,13 +220,13 @@ void main(void)
 				Now_Step = 1, istage = 0;	EMS = 0;
 			    Mode = 0;
 				CPU_Timer0_Isr_cnt = 0;
-/* Rx Åë½Å ÀÎÅÍ·´Æ® ÇØÁ¦ */
+/* Rx í†µì‹  ì¸í„°ëŸ½íŠ¸ í•´ì œ */
 				Rx_INT_STOP();
 				break;
 
-			case 3 :														// 2015.09.07 Ãß°¡ - ÀüÃ¼·çÆ¾¿¡¼­ STOP°¡ µÇµµ·Ï ¼öÁ¤
-				SOL_Output();												// ¸ğµç ¼Öº§ºê off
-				//string_Tx("$$END");										// PC·Î Process END¸¦ º¸°í
+			case 3 :														// 2015.09.07 ì¶”ê°€ - ì „ì²´ë£¨í‹´ì—ì„œ STOPê°€ ë˜ë„ë¡ ìˆ˜ì •
+				SOL_Output();												// ëª¨ë“  ì†”ë²¨ë¸Œ off
+				//string_Tx("$$END");										// PCë¡œ Process ENDë¥¼ ë³´ê³ 
 				DELAY_US(1000);
 				Recipe[0][0] = '0';
 				Recipe[0][1] = '0';
@@ -235,12 +235,12 @@ void main(void)
 				Now_Step = 1, istage = 0;	EMS = 0;
 			    Mode = 0;
 				CPU_Timer0_Isr_cnt = 0;
-/* Rx Åë½Å ÀÎÅÍ·´Æ® ÇØÁ¦ */
+/* Rx í†µì‹  ì¸í„°ëŸ½íŠ¸ í•´ì œ */
 				Rx_INT_STOP();
 				break;
 
 			case 5 :		// manual data recipe
-				PC_Data_Recive();                                       	// PC data ¸¦ Recipe ¹è¿­¿¡ »ğÀÔ
+				PC_Data_Recive();                                       	// PC data ë¥¼ Recipe ë°°ì—´ì— ì‚½ì…
 				DELAY_US(1);
 				Mode = 2;
 				Manual = 1;
@@ -251,9 +251,9 @@ void main(void)
 				DELAY_US(1000);												// 2019-12-23
 				Mode = 0;
 				break;
-			case 8 :   // ÃÊ±âÈ­
+			case 8 :   // ì´ˆê¸°í™”
 				All_Parts_Stop();
-				SOL_Output();												// ¸ğµç ¼Öº§ºê off
+				SOL_Output();												// ëª¨ë“  ì†”ë²¨ë¸Œ off
 
 				Motor_init();    											// motor initial
 				Motor_Stop();
@@ -263,9 +263,9 @@ void main(void)
 				// string_Tx("$$RDY");                                  	// Excel_Data transfer request sends a command code
 				break;
 
-			case 9 :  // ÃÊ±âÈ­
+			case 9 :  // ì´ˆê¸°í™”
 				All_Parts_Stop();
-				SOL_Output();												// ¸ğµç ¼Öº§ºê off
+				SOL_Output();												// ëª¨ë“  ì†”ë²¨ë¸Œ off
 
 				Motor_init();    											// motor initial
 				Motor_Stop();
@@ -310,6 +310,7 @@ void First_num()
 	Double_EQ = 0;
 	NGO = 0;
 	Manual = 0;																		// Manaul mode request
-	Mode = 0;																		// Mode=1 : PC_Data receive / Mode=2 : Process Run / Mode=3 : ºñ»óÁ¤Áö
-																					// Mode=4 : ÀÏ½ÃÁ¤Áö Mode=5 : Manual Mode
+	Mode = 0;																		// Mode=1 : PC_Data receive / Mode=2 : Process Run / Mode=3 : ë¹„ìƒì •ì§€
+																					// Mode=4 : ì¼ì‹œì •ì§€ Mode=5 : Manual Mode
 }
+
