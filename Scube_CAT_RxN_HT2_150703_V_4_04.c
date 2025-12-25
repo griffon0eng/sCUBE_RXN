@@ -39,7 +39,8 @@ void main(void)
 	Init_V_Pump_GPIO_SETUP();
 
 /******************************************************************** 시스템 컨트롤 초기화******/
-	SysCtrlRegs.HISPCP.bit.HSPCLK = 1;  											// HSPCLK = SYSCLKOUT/(HISPCP*2)
+	// 중복 호출임 dsp2833x_Sysctrl에 이미 정의 되어 있음
+	// SysCtrlRegs.HISPCP.bit.HSPCLK = 1;  											// HSPCLK = SYSCLKOUT/(HISPCP*2)
 	EDIS;																						// HSPCLK = 150MHz/(1*2) = 75MHz
 /********************************************************************  인터럽트 초기화*********/
 	InitPieCtrl();
@@ -313,4 +314,5 @@ void First_num()
 	Mode = 0;																		// Mode=1 : PC_Data receive / Mode=2 : Process Run / Mode=3 : 비상정지
 																					// Mode=4 : 일시정지 Mode=5 : Manual Mode
 }
+
 
