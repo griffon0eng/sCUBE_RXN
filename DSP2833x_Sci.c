@@ -17,22 +17,18 @@
 //---------------------------------------------------------------------------
 // This function initializes the SCI(s) to a known state.
 //
-//Uint32 baud;															//191202 ��żӵ� 38400���� ����
+//Uint32 baud;															//191202 통신속도 38400으로 변경
 
 void InitSci(void)
 {
 	// Initialize SCI-A:
-
-	//tbd...
+	// tbd...
  	
-
 	// Initialize SCI-B:
-
-	//tbd...
+	// tbd...
   
-      // Initialize SCI-C:
-
-      //tbd...
+    // Initialize SCI-C:
+    // tbd...
 }	
 
 //---------------------------------------------------------------------------
@@ -84,22 +80,35 @@ void InitSciaGpio()
 	GpioCtrlRegs.GPAMUX2.bit.GPIO29 = 1;   // Configure GPIO29 for SCITXDA operation
 	
     EDIS;
-    /* SCI ���� */
-    SciaRegs.SCICCR.all =0x0007;   // 1 stop bit,  No loopback
-								 // No parity,8 char bits,
-								 // async mode, idle-line protocol
-    SciaRegs.SCICTL1.all =0x0003;  // enable RX, internal SCICLK,
-								 // Disable RX ERR, SLEEP, TXWAKE, TX
+/* SCI 기본 설정 */
+SciaRegs.SCICCR.all = 0x0007;   // 1 stop bit, No parity, 8 char bits
+SciaRegs.SCICTL1.all = 0x0003;  // enable RX, TX, internal SCICLK
 
-//��żӵ� 38400���� ���� 191202
-    /*baud = ((Uint32) 37500000 / (38400*8) - 1 );
-    SciaRegs.SCIHBAUD = (baud&0xFF00) >> 8;
-    SciaRegs.SCILBAUD = (baud&0x00FF);*/
-    SciaRegs.SCIHBAUD = 0x1;       // 9600 bps
-    SciaRegs.SCILBAUD = 0xE7;        // 243.1525 = 19200bps  // 0xE7 = 9606bps �� 9600bps 0.06%����
-  /*��żӵ� ���ϴ� ����   :  �ӵ� = LSPLCK/(SCIHBAUD & SCILBAUD +1)X 8
-  						 9600	585966        487.305       +1 X 8   */
-    SciaRegs.SCICTL1.bit.SWRESET = 1;     // Relinquish SCI from Reset
+// 보레이트 설정 (115200 bps)
+SciaRegs.SCIHBAUD = 0x00;
+SciaRegs.SCILBAUD = 0x28;
+
+// --- FIFO 설정 추가 (데이터 깨짐 방지 핵심) ---
+// 1. 송신 FIFO 설정
+SciaRegs.SCIFFTX.all = 0xE040;  
+/* bit 15-14: SCI FIFO Reset & Resume (11)
+   bit 13: FIFO 채널 활성화 (1)
+   bit 6: TX FIFO 인터럽트 클리어 (1)
+   bit 5-0: TX FIFO 인터럽트 레벨 (0)
+*/
+
+// 2. 수신 FIFO 설정
+SciaRegs.SCIFFRX.all = 0x2041;  
+/* bit 13: RX FIFO 채널 활성화 (1)
+   bit 6: RX FIFO Overflow 클리어 (1)
+   bit 5-0: RX FIFO 인터럽트 레벨 (1) -> 1바이트 수신 시 즉시 인터럽트 발생
+   (고속 통신 시 응답성을 위해 레벨을 1로 설정하되, FIFO 버퍼가 16단이므로 Overrun을 방지함)
+*/
+
+// 3. FIFO 제어 설정
+SciaRegs.SCIFFCT.all = 0x0000;  // FFTXDLY = 0 (지연 없음)
+
+SciaRegs.SCICTL1.bit.SWRESET = 1; // SCI 재시작
 }
 
 #if DSP28_SCIB 
@@ -129,7 +138,7 @@ void InitScibGpio()
   GpioCtrlRegs.GPAMUX1.bit.GPIO15 = 2;   // Configure GPIO15 for SCIRXDB operation
 	
     EDIS;
-    /* SCI ���� */
+    /* SCI 설정 */
     ScibRegs.SCICCR.all =0x0007;   // 1 stop bit,  No loopback
   								 // No parity,8 char bits,
   								 // async mode, idle-line protocol
@@ -168,7 +177,7 @@ void InitScicGpio()
 	GpioCtrlRegs.GPBMUX2.bit.GPIO63 = 1;   // Configure GPIO63 for SCITXDC operation
 	
     EDIS;
-    /* SCI ���� */ //190830 NewMB
+    /* SCI 설정 */ //190830 NewMB
         ScicRegs.SCICCR.all =0x0007;   // 1 stop bit,  No loopback
     								 // No parity,8 char bits,
     								 // async mode, idle-line protocol
@@ -176,8 +185,8 @@ void InitScicGpio()
     								 // Disable RX ERR, SLEEP, TXWAKE, TX
 
         ScicRegs.SCIHBAUD = 0x1;       // 9600 bps
-        ScicRegs.SCILBAUD = 0xE7;        // 243.1525 = 19200bps  // 0xE7 = 9606bps �� 9600bps 0.06%����
-      /*��żӵ� ���ϴ� ����   :  �ӵ� = LSPLCK/(SCIHBAUD & SCILBAUD +1)X 8
+        ScicRegs.SCILBAUD = 0xE7;        // 243.1525 = 19200bps  // 0xE7 = 9606bps 약 9600bps 0.06%오차
+      /*통신속도 구하는 공식   :  속도 = LSPLCK/(SCIHBAUD & SCILBAUD +1)X 8
       						 9600	585966        487.305       +1 X 8   */
         ScicRegs.SCICTL1.bit.SWRESET = 1;     // Relinquish SCI from Reset
 }
@@ -210,3 +219,4 @@ void string_Tx(const char * msg)
 //===========================================================================
 // End of file.
 //===========================================================================
+
